@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import ru.yandex.practicum.model.sensorEvent.SensorEventType;
 
 import java.time.Instant;
@@ -23,8 +24,9 @@ import java.time.Instant;
         @JsonSubTypes.Type(value = ScenarioRemovedEvent.class, name = "SCENARIO_REMOVED")
 })
 
-@Data
-@Builder
+@Getter
+@Setter
+@ToString
 public abstract class HubEvent {
 
     @NotBlank
