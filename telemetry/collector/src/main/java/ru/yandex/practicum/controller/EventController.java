@@ -23,12 +23,12 @@ public class EventController {
     @PostMapping("/sensors")
     public void collectSensorEvent(@Valid @RequestBody SensorEvent event) {
         log.info("Received sensor event: {}", event);
-        sensorEventService.collectEvent(event);
+        sensorEventService.collectSensorEvent(event);
     }
 
     @PostMapping("/hubs")
     public void collectHubEvent(@Valid @RequestBody HubEvent event) {
         log.info("Received hub event: {}", event);
-        hubEventService.collectEvent(event);
+        hubEventService.collectHubEvent(event);
     }
 }

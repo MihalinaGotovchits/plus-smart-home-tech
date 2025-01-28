@@ -11,9 +11,9 @@ public class ScenarioCondition {
     @NotBlank
     private String sensorId;
 
-    private ScenarioType type;
+    private ConditionType type;
 
-    private ScenarioOperation operation;
+    private ConditionOperation operation;
 
     private int value;
 }

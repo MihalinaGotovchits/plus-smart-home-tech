@@ -1,6 +1,6 @@
 package ru.yandex.practicum.model.hubEvent;
 
-public enum DeviceActionType {
+public enum ActionType {
     ACTIVATE,
     DEACTIVATE,
     INVERSE,

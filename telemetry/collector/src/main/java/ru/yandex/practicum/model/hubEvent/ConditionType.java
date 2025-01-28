@@ -1,6 +1,6 @@
 package ru.yandex.practicum.model.hubEvent;
 
-public enum ScenarioType {
+public enum ConditionType {
     MOTION,
     LUMINOSITY,
     SWITCH,
