@@ -1,34 +1,79 @@
 package ru.yandex.practicum.controller;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.model.hubEvent.HubEvent;
-import ru.yandex.practicum.model.sensorEvent.SensorEvent;
-import ru.yandex.practicum.service.hubEvent.HubEventService;
-import ru.yandex.practicum.service.sensorEvent.SensorEventService;
+import com.google.protobuf.Empty;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
+import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
+import ru.yandex.practicum.grpc.telemetry.collector.CollectorControllerGrpc;
+import ru.yandex.practicum.grpc.telemetry.event.HubEventProto;
+import ru.yandex.practicum.grpc.telemetry.event.SensorEventProto;
+import ru.yandex.practicum.model.mapper.proto.HubEventProtoMapper;
+import ru.yandex.practicum.model.mapper.proto.SensorEventProtoMapper;
+import ru.yandex.practicum.service.EventService;
 
-@RestController
-@RequestMapping("/events")
-@RequiredArgsConstructor
-@Slf4j
-public class EventController {
-    private final SensorEventService sensorEventService;
-    private final HubEventService hubEventService;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-    @PostMapping("/sensors")
-    public void collectSensorEvent(@Valid @RequestBody SensorEvent event) {
-        log.info("Received sensor event: {}", event);
-        sensorEventService.collectSensorEvent(event);
+@GrpcService
+public class EventController extends CollectorControllerGrpc.CollectorControllerImplBase {
+    private final Map<SensorEventProto.PayloadCase, SensorEventProtoMapper> sensorEventMappers;
+    private final Map<HubEventProto.PayloadCase, HubEventProtoMapper> hubEventMappers;
+    private final EventService eventService;
+
+    public EventController(Set<SensorEventProtoMapper> sensorEventMappers,
+                           Set<HubEventProtoMapper> hubEventMappers,
+                           EventService eventService) {
+        this.sensorEventMappers = sensorEventMappers.stream()
+                .collect(Collectors.toMap(
+                        SensorEventProtoMapper::getMessageType,
+                        Function.identity()
+                ));
+        this.hubEventMappers = hubEventMappers.stream()
+                .collect(Collectors.toMap(
+                        HubEventProtoMapper::getMessageType,
+                        Function.identity()
+                ));
+        this.eventService = eventService;
     }
 
-    @PostMapping("/hubs")
-    public void collectHubEvent(@Valid @RequestBody HubEvent event) {
-        log.info("Received hub event: {}", event);
-        hubEventService.collectHubEvent(event);
+    @Override
+    public void collectSensorEvent(SensorEventProto request, StreamObserver<Empty> responseObserver) {
+        try {
+            if (sensorEventMappers.containsKey(request.getPayloadCase())) {
+                eventService.collectSensorEvent(sensorEventMappers.get(request.getPayloadCase()).map(request));
+            } else {
+                throw new IllegalArgumentException("Не могу найти обработчик для события " + request.getPayloadCase());
+            }
+            responseObserver.onNext(Empty.getDefaultInstance());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(new StatusRuntimeException(
+                    Status.INTERNAL
+                            .withDescription(e.getLocalizedMessage())
+                            .withCause(e)
+            ));
+        }
+    }
+
+    @Override
+    public void collectHubEvent(HubEventProto request, StreamObserver<Empty> responseObserver) {
+        try {
+            if (hubEventMappers.containsKey(request.getPayloadCase())) {
+                eventService.collectHubEvent(hubEventMappers.get(request.getPayloadCase()).map(request));
+            } else {
+                throw new IllegalArgumentException("Не могу найти обработчик для события " + request.getPayloadCase());
+            }
+            responseObserver.onNext(Empty.getDefaultInstance());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(new StatusRuntimeException(
+                    Status.INTERNAL
+                            .withDescription(e.getLocalizedMessage())
+                            .withCause(e)
+            ));
+        }
     }
 }

@@ -1,12 +1,12 @@
 package ru.yandex.practicum.model.sensorEvent;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 public class ClimateSensorEvent extends SensorEvent {
 
