@@ -8,12 +8,11 @@ option java_package = "ru.yandex.practicum.grpc.telemetry.event";
 import "google/protobuf/timestamp.proto";
 
 enum DeviceTypeProto {
-	// Варианты значений enum DeviceTypeProto
-	MOTION_SENSOR = 0;      // датчик движения
-	TEMPERATURE_SENSOR = 1; // датчик температуры
-	LIGHT_SENSOR = 2;       // датчик освещённости
-	CLIMATE_SENSOR = 3;     // датчик контроля климата
-	SWITCH_SENSOR = 4;      // переключатель
+  MOTION_SENSOR = 0;
+  TEMPERATURE_SENSOR = 1;
+  LIGHT_SENSOR = 2;
+  CLIMATE_SENSOR = 3;
+  SWITCH_SENSOR = 4;
 }
 
 enum ConditionTypeProto {
@@ -39,18 +38,18 @@ enum ActionTypeProto {
 }
 
 message DeviceAddedEventProto {
-    string id = 1;
-    DeviceTypeProto type = 2;
+  string id = 1;
+  DeviceTypeProto type = 2;
 }
 
 message DeviceRemovedEventProto {
-    string id = 1;
+  string id = 1;
 }
 
 message DeviceActionProto {
-    string sensor_id = 1;
-    ActionTypeProto type = 2;
-    optional int32 value = 3;
+  string sensor_id = 1;
+  ActionTypeProto type = 2;
+  optional int32 value = 3;
 }
 
 message ScenarioConditionProto {
@@ -64,13 +63,13 @@ message ScenarioConditionProto {
 }
 
 message ScenarioAddedEventProto {
-    string name = 1;
-    repeated ScenarioConditionProto condition = 2;
-    repeated DeviceActionProto action = 3;
+  string name = 1;
+  repeated ScenarioConditionProto condition = 2;
+  repeated DeviceActionProto action = 3;
 }
 
 message ScenarioRemovedEventProto {
-    string name = 1;
+  string name = 1;
 }
 
 message DeviceActionRequest {
@@ -81,12 +80,12 @@ message DeviceActionRequest {
 }
 
 message HubEventProto {
-    string hub_id = 1;
-    google.protobuf.Timestamp timestamp = 2;
-    oneof payload {
-        DeviceAddedEventProto device_added = 3;
-        DeviceRemovedEventProto device_removed = 4;
-        ScenarioAddedEventProto scenario_added = 5;
-        ScenarioRemovedEventProto scenario_removed = 6;
-    }
+  string hub_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  oneof payload {
+    DeviceAddedEventProto device_added = 3;
+    DeviceRemovedEventProto device_removed = 4;
+    ScenarioAddedEventProto scenario_added = 5;
+    ScenarioRemovedEventProto scenario_removed = 6;
+  }
 }
