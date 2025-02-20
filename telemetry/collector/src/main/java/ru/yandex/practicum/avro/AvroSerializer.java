@@ -1,4 +1,4 @@
-package ru.practicum.avro;
+package ru.yandex.practicum.avro;
 
 import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.DatumWriter;
