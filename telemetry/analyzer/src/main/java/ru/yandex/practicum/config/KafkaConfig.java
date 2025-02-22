@@ -31,6 +31,8 @@ public class KafkaConfig {
                 kafkaProperties.getSnapshotConsumer().getKeyDeserializer());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 kafkaProperties.getSnapshotConsumer().getValueDeserializer());
+        props.put("enable.auto.commit", "true");
+        props.put("auto.commit.interval.ms", "1000");
         return new KafkaConsumer<>(props);
     }
 
@@ -44,6 +46,8 @@ public class KafkaConfig {
                 kafkaProperties.getHubConsumer().getKeyDeserializer());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 kafkaProperties.getHubConsumer().getValueDeserializer());
+        props.put("enable.auto.commit", "true");
+        props.put("auto.commit.interval.ms", "1000");
         return new KafkaConsumer<>(props);
     }
 }
