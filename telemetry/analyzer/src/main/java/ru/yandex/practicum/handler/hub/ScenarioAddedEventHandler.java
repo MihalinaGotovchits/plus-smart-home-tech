@@ -41,10 +41,10 @@ public class ScenarioAddedEventHandler implements HubEventHandler {
     @Override
     public void handle(HubEventAvro hubEventAvro) {
         ScenarioAddedEventAvro scenarioAddedEventAvro = (ScenarioAddedEventAvro) hubEventAvro.getPayload();
-        if (!checkSensors(getConditionsSensorIds(scenarioAddedEventAvro.getConditions()), hubEventAvro.getHubId())) {
+        if (!checkSensorsExistenceForHub(getConditionsSensorIds(scenarioAddedEventAvro.getConditions()), hubEventAvro.getHubId())) {
             throw new NotFoundException("Не найдены сенсоры условий сценария");
         }
-        if (!checkSensors(getActionsSensorIds(scenarioAddedEventAvro.getActions()), hubEventAvro.getHubId())) {
+        if (!checkSensorsExistenceForHub(getActionsSensorIds(scenarioAddedEventAvro.getActions()), hubEventAvro.getHubId())) {
             throw new NotFoundException("Не найдены сенсоры действий сценария");
         }
         Optional<Scenario> scenarioOpt = scenarioRepository.findByHubIdAndName(
@@ -86,7 +86,7 @@ public class ScenarioAddedEventHandler implements HubEventHandler {
         return actionsAvro.stream().map(DeviceActionAvro::getSensorId).toList();
     }
 
-    private boolean checkSensors(Collection<String> ids, String hubId) {
+    private boolean checkSensorsExistenceForHub(Collection<String> ids, String hubId) {
         return sensorRepository.existsByIdInAndHubId(ids, hubId);
     }
 
