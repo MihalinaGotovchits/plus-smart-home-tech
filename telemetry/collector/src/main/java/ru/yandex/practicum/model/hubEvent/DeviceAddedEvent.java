@@ -2,12 +2,12 @@ package ru.yandex.practicum.model.hubEvent;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 public class DeviceAddedEvent extends HubEvent {
 
