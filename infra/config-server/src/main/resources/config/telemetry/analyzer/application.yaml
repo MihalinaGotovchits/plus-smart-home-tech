@@ -50,11 +50,8 @@ logging:
     "org.hibernate.orm.jdbc.bind": trace
 
 grpc:
-  server:
-    port: 59091
-    address: localhost
   client.hub-router:
-    address: "static://localhost:59090"
+    address: static://localhost:59090
     enableKeepAlive: true
     keepAliveWithoutCalls: true
     negotiationType: "plaintext"
