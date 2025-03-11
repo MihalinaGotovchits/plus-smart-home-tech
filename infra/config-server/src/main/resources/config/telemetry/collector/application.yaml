@@ -8,6 +8,6 @@ collector:
       bootstrap-servers: "localhost:9092"
       client-id-config: "producer-1"
       producer-key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
-      producer-value-serializer: "ru.practicum.avro.AvroSerializer"
+      producer-value-serializer: "ru.yandex.practicum.avro.AvroSerializer"
       sensor-events-topic: "telemetry.sensors.v1"
       hub-events-topic: "telemetry.hubs.v1"
