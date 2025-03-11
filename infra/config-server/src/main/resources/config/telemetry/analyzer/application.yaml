@@ -7,14 +7,14 @@ analyzer:
         group-id: "hub-analyzer-group"
         client-id: "hub-consumer-1"
         key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
-        value-deserializer: "ru.practicum.avro.HubEventDeserializer"
+        value-deserializer: "ru.yandex.practicum.avro.HubEventDeserializer"
         attempt-timeout: 1000
 
       snapshot-consumer:
         group-id: "snapshot-analyzer-group"
         client-id: "snapshot-consumer-1"
         key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
-        value-deserializer: "ru.practicum.avro.SensorSnapshotDeserializer"
+        value-deserializer: "ru.yandex.practicum.avro.SensorSnapshotDeserializer"
         attempt-timeout: 1000
 
       hub-events-topic: "telemetry.hubs.v1"
