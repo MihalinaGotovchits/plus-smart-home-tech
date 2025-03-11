@@ -36,7 +36,7 @@ public class HubEventProcessor implements Runnable {
                 }
             }
         } catch (WakeupException ignores) {
-            // Игнорируем исключение, так как оно используется для завершения работы
+
         } catch (Exception e) {
             log.error("Ошибка во время обработки события хаба ", e);
         } finally {
