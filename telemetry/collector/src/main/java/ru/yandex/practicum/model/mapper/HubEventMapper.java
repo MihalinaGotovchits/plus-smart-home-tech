@@ -12,6 +12,7 @@ public class HubEventMapper {
                 .setTimestamp(hubEvent.getTimestamp())
                 .setPayload(toHubEventPayloadAvro(hubEvent))
                 .build();
+
     }
 
     public static SpecificRecordBase toHubEventPayloadAvro(HubEvent hubEvent) {
@@ -23,12 +24,14 @@ public class HubEventMapper {
                         .setType(toDeviceTypeAvro(event.getDeviceType()))
                         .build();
             }
+
             case DEVICE_REMOVED -> {
                 DeviceRemovedEvent event = (DeviceRemovedEvent) hubEvent;
                 return DeviceRemovedEventAvro.newBuilder()
                         .setId(event.getId())
                         .build();
             }
+
             case SCENARIO_ADDED -> {
                 ScenarioAddedEvent event = (ScenarioAddedEvent) hubEvent;
                 return ScenarioAddedEventAvro.newBuilder()
@@ -43,6 +46,7 @@ public class HubEventMapper {
                                 .toList())
                         .build();
             }
+
             case SCENARIO_REMOVED -> {
                 ScenarioRemovedEvent event = (ScenarioRemovedEvent) hubEvent;
                 return ScenarioRemovedEventAvro.newBuilder()

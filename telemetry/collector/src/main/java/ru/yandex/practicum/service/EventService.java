@@ -4,7 +4,7 @@ import ru.yandex.practicum.model.hubEvent.HubEvent;
 import ru.yandex.practicum.model.sensorEvent.SensorEvent;
 
 public interface EventService {
-    void collectSensorEvent(SensorEvent event);
+    void collectSensorEvent(SensorEvent sensorEvent);
 
     void collectHubEvent(HubEvent hubEvent);
 }

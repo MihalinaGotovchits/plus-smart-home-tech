@@ -3,11 +3,11 @@ package ru.yandex.practicum.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.handler.sensor.SensorEventHandler;
-import ru.yandex.practicum.kafka.telemetry.event.SensorStateAvro;
-import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 import ru.yandex.practicum.model.Condition;
 import ru.yandex.practicum.model.Scenario;
 import ru.yandex.practicum.repository.ScenarioRepository;
+import ru.yandex.practicum.kafka.telemetry.event.SensorStateAvro;
+import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 
 import java.util.List;
 import java.util.Map;

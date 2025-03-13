@@ -25,6 +25,7 @@ public class SensorEventMapper {
                         .setVoltage(event.getVoltage())
                         .build();
             }
+
             case CLIMATE_SENSOR_EVENT -> {
                 ClimateSensorEvent event = (ClimateSensorEvent) sensorEvent;
                 return ClimateSensorAvro.newBuilder()
