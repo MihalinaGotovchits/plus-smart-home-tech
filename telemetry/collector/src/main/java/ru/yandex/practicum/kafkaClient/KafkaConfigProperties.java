@@ -12,6 +12,6 @@ public class KafkaConfigProperties {
     private String clientIdConfig;
     private String producerKeySerializer;
     private String producerValueSerializer;
-    private String sensorEventTopic;
-    private String hubEventTopic;
+    private String sensorEventsTopic;
+    private String hubEventsTopic;
 }

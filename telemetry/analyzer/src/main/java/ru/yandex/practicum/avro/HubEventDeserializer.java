@@ -7,3 +7,4 @@ public class HubEventDeserializer extends BaseAvroDeserializer<HubEventAvro> {
         super(HubEventAvro.getClassSchema());
     }
 }
+

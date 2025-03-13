@@ -21,7 +21,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void collectSensorEvent(SensorEvent event) {
-    send(kafkaConfig.getKafkaConfigProperties().getSensorEventTopic(),
+    send(kafkaConfig.getKafkaProperties().getSensorEventsTopic(),
             event.getHubId(),
             event.getTimestamp().toEpochMilli(),
             SensorEventMapper.toSensorEventAvro(event));
@@ -29,7 +29,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void collectHubEvent(HubEvent hubEvent) {
-        send(kafkaConfig.getKafkaConfigProperties().getHubEventTopic(),
+        send(kafkaConfig.getKafkaProperties().getHubEventsTopic(),
                 hubEvent.getHubId(),
                 hubEvent.getTimestamp().toEpochMilli(),
                 HubEventMapper.toHubEventAvro(hubEvent));

@@ -11,7 +11,5 @@ public interface SnapshotService {
 
     void collectSensorSnapshot(SensorsSnapshotAvro sensorsSnapshotAvro);
 
-    default void close() {
-
-    }
+    default void close() {}
 }

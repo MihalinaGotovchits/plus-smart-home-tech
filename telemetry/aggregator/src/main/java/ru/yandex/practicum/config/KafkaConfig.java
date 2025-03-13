@@ -18,30 +18,30 @@ import java.util.Properties;
 @Configuration
 @EnableConfigurationProperties({KafkaConfigProperties.class})
 public class KafkaConfig {
-    private final KafkaConfigProperties kafkaConfigProperties;
+    private final KafkaConfigProperties kafkaProperties;
 
     public KafkaConfig(KafkaConfigProperties properties) {
-        this.kafkaConfigProperties = properties;
+        this.kafkaProperties = properties;
     }
 
     @Bean
     public Producer<String, SpecificRecordBase> producer() {
         Properties properties = new Properties();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProperties.getBootstrapServers());
-        properties.put(ProducerConfig.CLIENT_ID_CONFIG, kafkaConfigProperties.getProducerClientIdConfig());
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaConfigProperties.getProducerKeySerializer());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaConfigProperties.getProducerValueSerializer());
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        properties.put(ProducerConfig.CLIENT_ID_CONFIG, kafkaProperties.getProducerClientIdConfig());
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducerKeySerializer());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducerValueSerializer());
         return new KafkaProducer<>(properties);
     }
 
     @Bean
-    public KafkaConsumer<String, SensorEventAvro> getKafkaConsumer() {
-        Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProperties.getBootstrapServers());
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConfigProperties.getConsumerGroupId());
-        properties.put(ConsumerConfig.CLIENT_ID_CONFIG, kafkaConfigProperties.getConsumerClientIdConfig());
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaConfigProperties.getConsumerKeyDeserializer());
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaConfigProperties.getConsumerValueDeserializer());
-        return new KafkaConsumer<>(properties);
+    public KafkaConsumer<String, SensorEventAvro> consumer() {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getConsumerGroupId());
+        props.put(ConsumerConfig.CLIENT_ID_CONFIG, kafkaProperties.getConsumerClientIdConfig());
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, kafkaProperties.getConsumerKeyDeserializer());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaProperties.getConsumerValueDeserializer());
+        return new KafkaConsumer<>(props);
     }
 }
