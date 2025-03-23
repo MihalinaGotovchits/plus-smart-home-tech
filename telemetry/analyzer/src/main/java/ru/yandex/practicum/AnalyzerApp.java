@@ -6,7 +6,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import ru.yandex.practicum.processor.HubEventProcessor;
 import ru.yandex.practicum.processor.SnapshotProcessor;
 
-
 @SpringBootApplication
 public class AnalyzerApp {
     public static void main(String[] args) {

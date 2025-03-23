@@ -4,14 +4,14 @@ import com.google.protobuf.Timestamp;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.handler.hub.HubEventHandler;
+import ru.yandex.practicum.model.Action;
+import ru.yandex.practicum.model.Scenario;
 import ru.yandex.practicum.grpc.telemetry.event.ActionTypeProto;
 import ru.yandex.practicum.grpc.telemetry.event.DeviceActionProto;
 import ru.yandex.practicum.grpc.telemetry.event.DeviceActionRequest;
 import ru.yandex.practicum.grpc.telemetry.hubrouter.HubRouterControllerGrpc;
-import ru.yandex.practicum.handler.hub.HubEventHandler;
 import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
-import ru.yandex.practicum.model.Action;
-import ru.yandex.practicum.model.Scenario;
 
 import java.time.Instant;
 import java.util.Map;

@@ -2,17 +2,14 @@ package ru.yandex.practicum;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.OffsetAndMetadata;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.WakeupException;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.config.KafkaConfig;
+import ru.yandex.practicum.service.SnapshotService;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
-import ru.yandex.practicum.service.SnapshotService;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -33,11 +30,10 @@ public class AggregationStarter {
         Runtime.getRuntime().addShutdownHook(new Thread(consumer::wakeup));
 
         try {
-            consumer.subscribe(List.of(kafkaConfig.getKafkaConfigProperties().getSensorEventTopic()));
+            consumer.subscribe(List.of(kafkaConfig.getKafkaProperties().getSensorEventsTopic()));
             while (true) {
                 ConsumerRecords<String, SensorEventAvro> records = consumer
-                        .poll(Duration.ofMillis(Long.parseLong(kafkaConfig.getKafkaConfigProperties()
-                                .getConsumerAttemptTimeout())));
+                        .poll(Duration.ofMillis(kafkaConfig.getKafkaProperties().getConsumeAttemptTimeout()));
                 int count = 0;
                 for (ConsumerRecord<String, SensorEventAvro> record : records) {
 
@@ -49,18 +45,18 @@ public class AggregationStarter {
             }
 
         } catch (WakeupException ignores) {
-
+            // игнорируем - закрываем консьюмер и продюсер в блоке finally
         } catch (Exception e) {
-            log.error("Ошибка при обработке событий от датчиков", e);
+            log.error("Ошибка во время обработки событий от датчиков", e);
         } finally {
 
             try {
                 consumer.commitSync(currentOffsets);
 
             } finally {
-                log.info("close consumer");
+                log.info("Закрываем консьюмер");
                 consumer.close();
-                log.info("close producer");
+                log.info("Закрываем продюсер");
                 snapshotService.close();
             }
         }
@@ -77,10 +73,10 @@ public class AggregationStarter {
                 new OffsetAndMetadata(consumerRecord.offset() + 1)
         );
 
-        if (count % 10 == 0) {
+        if(count % 10 == 0) {
             consumer.commitAsync(currentOffsets, (offsets, exception) -> {
-                if (exception != null) {
-                    log.warn("Ошибка при фиксации оффсетов: {}", offsets, exception);
+                if(exception != null) {
+                    log.warn("Ошибка во время фиксации оффсетов: {}", offsets, exception);
                 }
             });
         }

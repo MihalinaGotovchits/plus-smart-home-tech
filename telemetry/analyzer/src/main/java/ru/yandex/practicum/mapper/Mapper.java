@@ -1,7 +1,7 @@
 package ru.yandex.practicum.mapper;
 
-import ru.yandex.practicum.kafka.telemetry.event.*;
 import ru.yandex.practicum.model.*;
+import ru.yandex.practicum.kafka.telemetry.event.*;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "kafka.config")
+@ConfigurationProperties(prefix = "aggregator.kafka.config")
 public class KafkaConfigProperties {
     private String bootstrapServers;
 
@@ -18,8 +18,8 @@ public class KafkaConfigProperties {
     private String consumerClientIdConfig;
     private String consumerKeyDeserializer;
     private String consumerValueDeserializer;
-    private String consumerAttemptTimeout;
+    private long consumeAttemptTimeout;
 
-    private String sensorEventTopic;
+    private String sensorEventsTopic;
     private String sensorSnapshotsTopic;
 }

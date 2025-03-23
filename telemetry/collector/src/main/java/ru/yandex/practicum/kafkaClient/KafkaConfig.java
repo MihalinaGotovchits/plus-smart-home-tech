@@ -15,20 +15,19 @@ import java.util.Properties;
 @Configuration
 @EnableConfigurationProperties({KafkaConfigProperties.class})
 public class KafkaConfig {
-
-    private final KafkaConfigProperties kafkaConfigProperties;
+    private final KafkaConfigProperties kafkaProperties;
 
     public KafkaConfig(KafkaConfigProperties properties) {
-        this.kafkaConfigProperties = properties;
+        this.kafkaProperties = properties;
     }
 
     @Bean
     public Producer<String, SpecificRecordBase> producer() {
         Properties properties = new Properties();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProperties.getBootstrapServers());
-        properties.put(ProducerConfig.CLIENT_ID_CONFIG, kafkaConfigProperties.getClientIdConfig());
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaConfigProperties.getProducerKeySerializer());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaConfigProperties.getProducerValueSerializer());
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        properties.put(ProducerConfig.CLIENT_ID_CONFIG, kafkaProperties.getClientIdConfig());
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducerKeySerializer());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducerValueSerializer());
         return new KafkaProducer<>(properties);
     }
 }

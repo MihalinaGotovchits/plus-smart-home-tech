@@ -10,10 +10,10 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.WakeupException;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.config.KafkaConfig;
-import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 import ru.yandex.practicum.model.Scenario;
 import ru.yandex.practicum.service.AnalyzerService;
 import ru.yandex.practicum.service.HubEventService;
+import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -69,7 +69,7 @@ public class SnapshotProcessor implements Runnable {
         log.info("analyzer handleRecord {}", consumerRecord.value());
         List<Scenario> scenarios = analyzerService.getScenariosBySnapshot(consumerRecord.value());
         log.info("==> found scenarios for execute {}", scenarios.size());
-        for (Scenario scenario : scenarios) {
+        for (Scenario scenario: scenarios) {
             hubEventService.sendActionsByScenario(scenario);
         }
     }
@@ -91,4 +91,3 @@ public class SnapshotProcessor implements Runnable {
         }
     }
 }
-
