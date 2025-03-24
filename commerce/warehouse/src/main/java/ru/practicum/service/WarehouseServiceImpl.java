@@ -153,7 +153,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         );
     }
 
-    Map<UUID, WarehouseProduct> getWarehouseProducts(Collection<UUID> ids) {
+    private Map<UUID, WarehouseProduct> getWarehouseProducts(Collection<UUID> ids) {
         Map<UUID, WarehouseProduct> products = warehouseRepository.findAllById(ids)
                 .stream()
                 .collect(Collectors.toMap(WarehouseProduct::getProductId, Function.identity()));
@@ -163,7 +163,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         return products;
     }
 
-    void addBooking(AssemblyProductsForRequest request) {
+    private void addBooking(AssemblyProductsForRequest request) {
         Booking booking = Booking.builder()
                 .orderId(request.getOrderId())
                 .products(request.getProducts())
@@ -171,7 +171,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         bookingRepository.save(booking);
     }
 
-    void savedWarehouseRemains(Collection<WarehouseProduct> products) {
+    private void savedWarehouseRemains(Collection<WarehouseProduct> products) {
         warehouseRepository.saveAll(products);
     }
 }
